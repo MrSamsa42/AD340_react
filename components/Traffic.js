@@ -6,9 +6,10 @@ import {
   Alert,
   Text,
   View,
-  FlatList
+  FlatList,
+  Image
 } from 'react-native';
-import {List, ListItem} from 'react-native-elements';
+import {List, ListItem, Avatar} from 'react-native-elements';
 
 type Props = {};
 export default class Traffic extends Component<Props> {
@@ -22,27 +23,60 @@ export default class Traffic extends Component<Props> {
   }
 
   fetchData = async () => {
-    const response = await fetch("https://web6.seattle.gov/Travelers/api/Map/Data?zoomId=17&type=2");
+    const response = await fetch("https://web6.seattle.gov/Travelers/api/Map/Data?zoomId=18&type=2");
     const json = await response.json();
     this.setState({data: json.Features});
   }
 
+  checkCam = (cam, type) => {
+    let sdotURL = "http://www.seattle.gov/trafficcams/images/";
+    let wsdotURL = "http://images.wsdot.wa.gov/nw/";
+    return (type === "sdot" ? `${sdotURL}${cam}`: `${wsdotURL}${cam}`);
+  }
+
   render() {
     return (
-      <View>
         <List>
-          <FlatList
+          <FlatList style={styles.flatList}
             data={this.state.data}
             keyExtractor={(x, i) => i.toString()}
             renderItem={({item}) =>
-            <ListItem
-              roundAvatar
-              avatar={ {uri: `http://www.seattle.gov/trafficcams/images/${item.Cameras[0].ImageUrl}` } }
-              title={item.Cameras[0].Description}
-            />}
+            <View style={styles.container}>
+            <Image
+              source = {{uri: this.checkCam(item.Cameras[0].ImageUrl, item.Cameras[0].Type) }}
+              style = {styles.image}
+            />
+            <Text style={styles.titleText}>
+              {item.Cameras[0].Description}
+            </Text>
+            <Text style={styles.subtitleText}>
+              {item.Cameras[0].Type}
+            </Text>
+          </View>}
           />
         </List>
-      </View>
     );
   }
-}
+} //end class
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  flatList: {
+    marginTop: 10
+  },
+  titleText: {
+    color: 'black',
+    fontSize: 20
+  },
+  subtitleText: {
+    fontSize: 15,
+    marginBottom: 15
+  },
+  image: {
+    width: 300,
+    height: 300
+  }
+});
