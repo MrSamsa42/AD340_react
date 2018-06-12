@@ -18,7 +18,7 @@ export default class Traffic extends Component<Props> {
     data: []
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchData();
   }
 
@@ -32,6 +32,13 @@ export default class Traffic extends Component<Props> {
     let sdotURL = "http://www.seattle.gov/trafficcams/images/";
     let wsdotURL = "http://images.wsdot.wa.gov/nw/";
     return (type === "sdot" ? `${sdotURL}${cam}`: `${wsdotURL}${cam}`);
+  }
+
+  static navigationOptions = {
+    title: 'Traffic Cameras',
+    headerStyle: {
+      backgroundColor: 'steelblue'
+    }
   }
 
   render() {

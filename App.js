@@ -1,42 +1,43 @@
+
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
-  Button,
-  Alert,
   Text,
   View
 } from 'react-native';
+
+import {StackNavigator} from 'react-navigation';
+
+//import screens
+import Home from './components/Home';
 import Traffic from './components/Traffic';
+import AndroidToolbar from './components/AndroidToolbar';
 
+export default class App extends React.Component {
+  render() {
+    return (
+      <AppStackNavigator />
+    )
+  }
+}
 
+const AppStackNavigator = new StackNavigator( {
+  Home: {screen: Home},
+  Traffic: {screen: Traffic}
+}, {
+  initialRouteName: 'Home',
+});
+
+/*
 type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
       <View>
-        <Traffic />
+        <AndroidToolbar />
+        <Home />
       </View>
     );
   }
 }
-/*
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
 */
