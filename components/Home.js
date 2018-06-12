@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import {
-  Platform,
   Text,
   View,
   Button,
   StyleSheet
 } from 'react-native';
 
-//import screens
-//import Traffic from './Traffic';
 import AndroidToolbar from './AndroidToolbar';
 
 

@@ -1,24 +1,20 @@
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
-  Button,
-  Alert,
   Text,
   View,
   FlatList,
   Image
 } from 'react-native';
-import {List, ListItem, Avatar} from 'react-native-elements';
+import {List} from 'react-native-elements';
 
 type Props = {};
 export default class Traffic extends Component<Props> {
-
   state = {
     data: []
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.fetchData();
   }
 
@@ -28,7 +24,7 @@ export default class Traffic extends Component<Props> {
     this.setState({data: json.Features});
   }
 
-  checkCam = (cam, type) => {
+  setURL = (cam, type) => {
     let sdotURL = "http://www.seattle.gov/trafficcams/images/";
     let wsdotURL = "http://images.wsdot.wa.gov/nw/";
     return (type === "sdot" ? `${sdotURL}${cam}`: `${wsdotURL}${cam}`);
@@ -41,6 +37,12 @@ export default class Traffic extends Component<Props> {
     }
   }
 
+  setCamDimensions = (type) => {
+    let style = {};
+    type === 'sdot' ? style = {width: 375, height: 300} : style = {width: 335, height: 249};
+    return style;
+  }
+
   render() {
     return (
         <List>
@@ -50,8 +52,8 @@ export default class Traffic extends Component<Props> {
             renderItem={({item}) =>
             <View style={styles.container}>
             <Image
-              source = {{uri: this.checkCam(item.Cameras[0].ImageUrl, item.Cameras[0].Type) }}
-              style = {styles.image}
+              source = {{uri: this.setURL(item.Cameras[0].ImageUrl, item.Cameras[0].Type) }}
+              style = {this.setCamDimensions(item.Cameras[0].Type)}
             />
             <Text style={styles.titleText}>
               {item.Cameras[0].Description}
@@ -82,8 +84,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginBottom: 15
   },
-  image: {
-    width: 300,
+  SDOTimage: {
+    width: 375,
     height: 300
+  },
+  WSDOTimage: {
+    width: 335,
+    height: 249
   }
 });
