@@ -1,8 +1,7 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, ToolbarAndroid} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, ToolbarAndroid } from 'react-native';
 
-type Props = {};
-export default class AndroidToolbar extends Component<Props> {
+export default class AndroidToolbar extends Component {
   constructor() {
     super();
     this.state = {
